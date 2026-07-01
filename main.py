@@ -2,7 +2,23 @@ import asyncio
 import os
 from dotenv import load_dotenv
 
+from mcp import ClientSession, StdioServerParameters
+from mcp.client.stdio import stdio_client
+
+from langchain_openai import ChatOpenAI
+from langchain_mcp_adapters.tools import load_mcp_tools
+from langchain.agents import create_agent
+
+
 load_dotenv()
+
+llm = ChatOpenAI()
+
+stdio_server_params = StdioServerParameters(
+    command="python",
+    args=["servers/math_server.py"],
+    env=os.environ.copy(),
+)
 
 async def main():
     print("Hello from mcp-test!")
